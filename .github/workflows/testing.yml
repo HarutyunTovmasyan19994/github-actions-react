@@ -1,14 +1,15 @@
 name: Test React Aop
 on: push
 jobs:
-    runs-on: ubuntu-latest
-    steps:
-        - name: Get  repository code 
-         uses: actions/checkout@4
-        - name: Install dependecies
-          run: npm ci
-        - name: Test application
-          run: npm run
+    test:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get  repository code 
+              uses: actions/checkout@4
+            - name: Install dependecies
+              run: npm ci
+            - name: Test application
+              run: npm run
 
 
   
