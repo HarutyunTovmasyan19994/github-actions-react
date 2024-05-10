@@ -2,7 +2,9 @@ name: Deploy React Aop
 on:
   push:
     branches:
-      - masterg
+      - master
+    paths-ignore:
+      - ".github/workflows/*"
 jobs:
     test:
         runs-on: ubuntu-latest
