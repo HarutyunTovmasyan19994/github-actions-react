@@ -1,57 +1,28 @@
-name: Deploy React Aop
-on:
-  push:
-    branches:
-      - master
-    #paths-ignore:
-    #  - ".github/workflows/*"
+name: GitHub Actions Demo
+on: [push]
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Get  repository code 
-              uses: actions/checkout@v3
-            - name: Cache depes 
-              uses: actions/cache@v3
-              with:
-                path: ~/ .npm
-                key: node-modules-${{ hashFiles('**/package-lock.json')}}
-            - name: Install dependecies
-              run: npm ci
-            - name: Test application
-              run: npm run test
-    lint:
-      runs-on: ubuntu-latest
-      needs: test
-      steps:
-          - name: Get  repository code 
-            uses: actions/checkout@v3
-          - name: Cache depes 
-            uses: actions/cache@v3
-            with:
-                path: ~/ .npm
-                key: node-modules-${{ hashFiles('**/package-lock.json')}}
-          - name: Install dependecies
-            run: npm ci
-          - name: Lint application
-            run: npm run lint
-    build:
-      runs-on: ubuntu-latest
-      needs: lint
-      steps:
-          - name: Get  repository code 
-            uses: actions/checkout@v3
-          - name: Cache depes 
-            uses: actions/cache@v3
-            with:
-              path: ~/ .npm
-              key: node-modules-${{ hashFiles('**/package-lock.json')}}
-          - name: Install dependecies
-            run: npm ci
-          - name: Build application
-            run: npm run build
-          - name: Deploy
-            run: echo Deploing...
-
-
-  
+  init:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 17.x ]
+    steps:
+       - uses: actions/checkout@v3
+       - name: Staring Node.js ${{matrix.node-version}}
+         uses: actions/setup-node@v3
+         with:
+          node-version: ${{matrix.node-version}}
+       - name: install modules
+         run: npm install 
+       - name: build project 
+         run: npm run build 
+       - name: build storyBook 
+         run: npm run build:storybook
+       - name: unit test
+         run: npm run test:unit
+       - name: e2e test
+         run: npm run test:e2e
+       - name: lint code
+         run: npm run lint 
+       - name: build project 
+         run: npm run build 
